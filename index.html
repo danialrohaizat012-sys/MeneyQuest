@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#050a08">
-<title>Meney Quest V0.6.2 · Mobile Responsive</title>
+<title>Meney Quest V0.6.3 · Mobile Full View</title>
 <style>
 :root{
   --bg:#050a08;--panel:#0b1310;--panel2:#101c17;--line:#2a4034;
@@ -224,12 +224,53 @@ body{overflow:hidden}
   .bubble{width:min(136px,38vw);font-size:8.5px}
 }
 
+
+/* V0.6.3 mobile full-view and touch fixes */
+.bubble{pointer-events:none}
+.customer.selected{z-index:18}
+@media(max-width:700px){
+  .floor{
+    background-size:100% 100% !important;
+    background-position:center center !important;
+    background-repeat:no-repeat !important;
+  }
+  .floor-wrap{
+    background:#050806;
+  }
+  .customer{
+    width:86px !important;
+    height:104px !important;
+    margin-left:-22px;
+    margin-top:-20px;
+    cursor:pointer;
+    touch-action:manipulation;
+  }
+  .customer .sprite{
+    left:28px !important;
+    bottom:8px !important;
+  }
+  .customer .bubble{
+    left:50% !important;
+    bottom:67px !important;
+    transform:translateX(-50%) !important;
+  }
+  .station-hotspot{
+    touch-action:manipulation;
+  }
+  .mobile-order{
+    top:70px;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+  }
+}
+
 </style>
 </head>
 <body>
 <div class="game">
   <header class="top">
-    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.2</span></div></div>
+    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.3</span></div></div>
     <div class="top-card"><small>Coins</small><b id="coins">0</b></div>
     <div class="top-card"><small>Reputation</small><b id="rep">100%</b><div class="bar"><i id="repBar"></i></div></div>
     <div class="top-card"><small>Combo</small><b id="combo">x0</b></div>
@@ -368,6 +409,27 @@ function sendTo(station){
  renderCustomers();renderOrder();
 }
 document.querySelectorAll('.station-hotspot').forEach(el=>el.onclick=()=>sendTo(el.dataset.station));
+const floorWrap=document.querySelector('.floor-wrap');
+floorWrap.addEventListener('pointerdown',e=>{
+  if(!running||paused)return;
+  if(e.target.closest('.station-hotspot')||e.target.closest('.pause'))return;
+  const r=floorWrap.getBoundingClientRect();
+  const px=(e.clientX-r.left)/r.width*100;
+  const py=(e.clientY-r.top)/r.height*100;
+  let nearest=null,best=14;
+  for(const c of customers){
+    if(c.state!=='waiting')continue;
+    const d=Math.hypot(c.x-px,c.y-py);
+    if(d<best){best=d;nearest=c}
+  }
+  if(nearest){
+    selected=nearest.id;
+    renderCustomers();
+    renderOrder();
+    toast(`${nearest.name}: ${nearest.text}`);
+  }
+});
+
 document.querySelectorAll('.mobile-station').forEach(el=>el.onclick=()=>{
   document.querySelectorAll('.mobile-station').forEach(x=>x.classList.remove('active'));
   el.classList.add('active');

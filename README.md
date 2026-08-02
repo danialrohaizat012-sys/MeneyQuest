@@ -1,18 +1,16 @@
-# Meney Quest V0.6.2 — Mobile Responsive
+# Meney Quest V0.6.3 — Mobile Full View
 
-## Mobile improvements
-- No forced desktop minimum width
-- Shop floor fills the phone screen
-- Compact mobile HUD
-- Desktop side panels hidden on phones
-- Mobile current-order card
-- Fixed Sales, Repair, Trade-In and Cashier buttons at the bottom
-- Smaller customer characters and dialogue bubbles
-- Touch-friendly controls
-- Desktop layout remains unchanged
+## Fixes
+- Entire shop layout is visible on portrait phones.
+- Mobile background no longer crops the left or right side of the shop.
+- Customer tap targets are much larger.
+- Speech bubbles no longer block touch events.
+- Tapping near a customer selects the nearest waiting customer.
+- Selected customer is moved above overlapping customers.
+- Desktop layout remains unchanged.
 
 ## GitHub upload
-Upload these three files directly to the repository root:
+Replace these files in the repository root:
 - index.html
 - meney-shop-floor.jpg
 - README.md

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#050a08">
-<title>Meney Quest V0.6.3 · Mobile Full View</title>
+<title>Meney Quest V0.6.4 · Phone Fit</title>
 <style>
 :root{
   --bg:#050a08;--panel:#0b1310;--panel2:#101c17;--line:#2a4034;
@@ -265,12 +265,39 @@ body{overflow:hidden}
   }
 }
 
+
+/* V0.6.4 exact phone viewport fit */
+:root{--app-height:100dvh}
+@media(max-width:700px){
+  html,body{width:100%;height:var(--app-height);max-height:var(--app-height);margin:0;overflow:hidden;background:#020604}
+  body{position:fixed;inset:0;touch-action:manipulation}
+  .game{
+    position:fixed!important;inset:0!important;width:100vw!important;height:var(--app-height)!important;
+    min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+    grid-template-rows:68px minmax(0,1fr) 72px!important;overflow:hidden!important
+  }
+  .floor-wrap{width:100%!important;height:100%!important;overflow:hidden!important;background:#040806!important}
+  .floor{
+    inset:0!important;width:100%!important;height:100%!important;
+    background-size:contain!important;background-position:center center!important;background-repeat:no-repeat!important;
+    background-color:#040806!important
+  }
+  .floor-shade{display:none!important}
+  .top{height:68px!important;min-height:68px!important}
+  .mobile-stations{height:72px!important;min-height:72px!important}
+  .mobile-order{top:58px!important;left:7px!important;right:7px!important;font-size:9px!important;min-height:36px!important;padding:7px 9px!important}
+  .floor-title{top:4px!important;font-size:7px!important;padding:4px 8px!important}
+  .pause{width:42px!important;height:42px!important;right:6px!important;bottom:6px!important}
+  .customer{transform:translate(-50%,-50%) scale(.82)!important;transform-origin:center bottom!important;margin:0!important}
+  .customer .bubble{width:min(132px,36vw)!important;font-size:8px!important;bottom:62px!important}
+}
+
 </style>
 </head>
 <body>
 <div class="game">
   <header class="top">
-    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.3</span></div></div>
+    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.4</span></div></div>
     <div class="top-card"><small>Coins</small><b id="coins">0</b></div>
     <div class="top-card"><small>Reputation</small><b id="rep">100%</b><div class="bar"><i id="repBar"></i></div></div>
     <div class="top-card"><small>Combo</small><b id="combo">x0</b></div>
@@ -330,6 +357,16 @@ body{overflow:hidden}
 
 <script>
 (()=>{
+function syncViewportHeight(){
+  const h=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
+  document.documentElement.style.setProperty('--app-height',h+'px');
+}
+syncViewportHeight();
+window.addEventListener('resize',syncViewportHeight);
+if(window.visualViewport){
+  window.visualViewport.addEventListener('resize',syncViewportHeight);
+  window.visualViewport.addEventListener('scroll',syncViewportHeight);
+}
 const $=id=>document.getElementById(id);
 const layer=$('customerLayer');
 const spots={

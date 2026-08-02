@@ -1,16 +1,10 @@
-# Meney Quest V0.6.3 — Mobile Full View
+# Meney Quest V0.6.4 — Phone Fit
 
-## Fixes
-- Entire shop layout is visible on portrait phones.
-- Mobile background no longer crops the left or right side of the shop.
-- Customer tap targets are much larger.
-- Speech bubbles no longer block touch events.
-- Tapping near a customer selects the nearest waiting customer.
-- Selected customer is moved above overlapping customers.
-- Desktop layout remains unchanged.
+Fixes:
+- Uses Safari visualViewport height.
+- Entire shop image uses contain, so no side or vertical cropping.
+- Game is fixed exactly inside the visible phone viewport.
+- Compact HUD and station bar.
+- Larger reliable customer touch selection retained.
 
-## GitHub upload
-Replace these files in the repository root:
-- index.html
-- meney-shop-floor.jpg
-- README.md
+Upload index.html, meney-shop-floor.jpg and README.md to repository root.

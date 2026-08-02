@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <meta name="theme-color" content="#050a08">
-<title>Meney Quest V0.6 · Shop Floor Deluxe</title>
+<title>Meney Quest V0.6.2 · Mobile Responsive</title>
 <style>
 :root{
   --bg:#050a08;--panel:#0b1310;--panel2:#101c17;--line:#2a4034;
@@ -135,12 +135,101 @@ body{overflow:hidden}
   .top{grid-template-columns:285px repeat(4,1fr) 230px 55px}
   .bubble{width:180px;font-size:11px}
 }
+
+.mobile-order{
+  display:none;position:absolute;z-index:12;left:10px;right:10px;top:78px;
+  padding:9px 11px;border-radius:13px;background:rgba(7,16,11,.92);
+  border:1px solid rgba(156,255,35,.42);box-shadow:0 10px 25px rgba(0,0,0,.35);
+  font-size:11px;line-height:1.3;pointer-events:none
+}
+.mobile-stations{display:none}
+@media(max-width:700px){
+  html,body{height:100%;overflow:hidden}
+  body{overscroll-behavior:none}
+  .game{
+    width:100vw;height:100dvh;min-width:0;min-height:0;padding:0;
+    display:grid;grid-template-columns:1fr;grid-template-rows:74px minmax(0,1fr) 78px;
+    gap:0;background:#020604
+  }
+  .top{
+    grid-column:1;grid-row:1;display:grid;
+    grid-template-columns:minmax(150px,1.5fr) repeat(4,minmax(58px,.65fr));
+    gap:5px;padding:5px;background:#06100b;overflow:hidden
+  }
+  .logo-card{padding:7px 9px;gap:8px;border-radius:12px}
+  .logo{width:37px;height:37px;border-radius:11px;font-size:21px;flex:0 0 auto}
+  .title strong{font-size:13px;line-height:1.05;letter-spacing:.03em}
+  .title span{font-size:8px;white-space:nowrap}
+  .top-card{padding:6px 7px;border-radius:11px;min-width:0}
+  .top-card small{font-size:6px;letter-spacing:.02em;white-space:nowrap}
+  .top-card b{font-size:13px;white-space:nowrap}
+  .top-card .bar{height:5px;margin-top:3px}
+  .top .top-card:nth-of-type(6),.gear{display:none}
+  .left,.right,.bottom-tip{display:none!important}
+  .floor-wrap{
+    grid-column:1;grid-row:2;border-radius:0;border-left:0;border-right:0;
+    min-width:0;min-height:0;box-shadow:none
+  }
+  .floor{
+    background-size:cover;
+    background-position:center center;
+  }
+  .floor-title{
+    top:7px;padding:5px 10px;font-size:8px;letter-spacing:.08em;
+    max-width:80%;white-space:nowrap
+  }
+  .mobile-order{display:block}
+  .customer{width:42px;height:58px}
+  .sprite{left:6px;width:31px;height:42px;border-width:2px;border-radius:10px}
+  .sprite:before{left:5px;top:-15px;width:18px;height:19px;border-width:2px}
+  .sprite:after{left:3px;top:-17px;width:23px;height:7px}
+  .face{left:15px;top:2px;width:3px;height:3px;box-shadow:7px 0 #111}
+  .bubble{
+    width:min(150px,40vw);min-height:58px;bottom:56px;padding:8px 9px 7px;
+    border-radius:11px;border-width:1.5px;font-size:9px;line-height:1.25
+  }
+  .bubble-text{min-height:25px}
+  .patience-label{font-size:6px;margin-top:4px}
+  .patience{height:5px;margin-top:2px}
+  .bubble:after{bottom:-7px;border-width:7px}
+  .station-label{opacity:1;font-size:7px;padding:3px 6px}
+  .station-hotspot{border-radius:10px}
+  .pause{
+    right:8px;bottom:8px;width:47px;height:47px;border-radius:13px;font-size:8px
+  }
+  .pause b{font-size:17px}
+  .toast{top:45px;font-size:9px;padding:7px 9px;max-width:80%;white-space:normal;text-align:center}
+  .mobile-stations{
+    grid-column:1;grid-row:3;display:grid;grid-template-columns:repeat(4,1fr);
+    gap:5px;padding:6px;background:#06100b;border-top:1px solid #294236
+  }
+  .mobile-station{
+    border:1px solid #2d4939;border-radius:12px;background:#102018;color:white;
+    font-size:8px;font-weight:950;padding:6px 2px;display:grid;place-items:center
+  }
+  .mobile-station strong{display:block;font-size:18px;margin-bottom:1px}
+  .mobile-station:active,.mobile-station.active{border-color:var(--lime);background:#1a3422}
+  .overlay{padding:15px}
+  .modal{padding:22px 18px;border-radius:19px}
+  .modal-logo{width:60px;height:60px;font-size:30px}
+  .modal h1{font-size:23px}
+  .modal p{font-size:12px}
+  .btn{padding:13px}
+}
+@media(max-width:390px){
+  .top{grid-template-columns:minmax(135px,1.45fr) repeat(4,minmax(48px,.58fr))}
+  .title strong{font-size:12px}
+  .logo{width:34px;height:34px}
+  .top-card b{font-size:12px}
+  .bubble{width:min(136px,38vw);font-size:8.5px}
+}
+
 </style>
 </head>
 <body>
 <div class="game">
   <header class="top">
-    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.1</span></div></div>
+    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.2</span></div></div>
     <div class="top-card"><small>Coins</small><b id="coins">0</b></div>
     <div class="top-card"><small>Reputation</small><b id="rep">100%</b><div class="bar"><i id="repBar"></i></div></div>
     <div class="top-card"><small>Combo</small><b id="combo">x0</b></div>
@@ -166,6 +255,7 @@ body{overflow:hidden}
   <main class="floor-wrap">
     <div class="floor"></div><div class="floor-shade"></div>
     <div class="floor-title">MENEY GAMING · LIVE SHOP FLOOR</div>
+    <div id="mobileOrder" class="mobile-order">Tap customer untuk lihat order.</div>
     <div id="salesStation" class="station-hotspot" data-station="sales"><div class="station-label">SALES COUNTER</div></div>
     <div id="repairStation" class="station-hotspot" data-station="repair"><div class="station-label">REPAIR BENCH</div></div>
     <div id="tradeStation" class="station-hotspot" data-station="trade"><div class="station-label">TRADE-IN DESK</div></div>
@@ -174,6 +264,14 @@ body{overflow:hidden}
     <div id="toast" class="toast"></div>
     <button id="pauseBtn" class="pause"><b>Ⅱ</b>PAUSE</button>
   </main>
+
+
+  <nav class="mobile-stations">
+    <button class="mobile-station" data-mobile-station="sales"><span><strong>🎮</strong>SALES</span></button>
+    <button class="mobile-station" data-mobile-station="repair"><span><strong>🛠️</strong>REPAIR</span></button>
+    <button class="mobile-station" data-mobile-station="trade"><span><strong>🔁</strong>TRADE-IN</span></button>
+    <button class="mobile-station" data-mobile-station="cashier"><span><strong>💳</strong>CASHIER</span></button>
+  </nav>
 
   <aside class="right">
     <section class="panel"><h3>CURRENT ORDER</h3><div id="currentOrder"><div style="color:var(--muted);font-size:12px">Select a customer inside the shop.</div></div></section>
@@ -237,8 +335,13 @@ function renderCustomers(){
 }
 function renderOrder(){
  const c=customers.find(x=>x.id===selected);
- if(!c){$('currentOrder').innerHTML='<div style="color:var(--muted);font-size:12px">Select a customer inside the shop.</div>';return}
+ if(!c){
+   $('currentOrder').innerHTML='<div style="color:var(--muted);font-size:12px">Select a customer inside the shop.</div>';
+   $('mobileOrder').innerHTML='Tap customer untuk lihat order.';
+   return;
+ }
  $('currentOrder').innerHTML=`<div class="order-card"><div class="order-avatar" style="background:${c.shirt}"></div><div><p>${c.text} ${c.icon}</p><small style="color:#4c554e">${c.name}</small><div class="patience-label"><span>PATIENCE</span><b>${Math.ceil(c.patience)}%</b></div><div class="patience"><i style="width:${c.patience}%"></i></div></div></div>`;
+ $('mobileOrder').innerHTML=`<b>${c.name}</b> · ${c.text} ${c.icon} &nbsp; <span style="color:var(--gold)">${Math.ceil(c.patience)}%</span>`;
 }
 function renderUpcoming(){
  const arr=customers.filter(c=>c.id!==selected&&c.state==='waiting').slice(0,3);
@@ -265,6 +368,12 @@ function sendTo(station){
  renderCustomers();renderOrder();
 }
 document.querySelectorAll('.station-hotspot').forEach(el=>el.onclick=()=>sendTo(el.dataset.station));
+document.querySelectorAll('.mobile-station').forEach(el=>el.onclick=()=>{
+  document.querySelectorAll('.mobile-station').forEach(x=>x.classList.remove('active'));
+  el.classList.add('active');
+  sendTo(el.dataset.mobileStation);
+  setTimeout(()=>el.classList.remove('active'),450);
+});
 function resolve(c){
  if(c.station===c.type){combo++;maxCombo=Math.max(maxCombo,combo);served++;coins+=90+combo*10;hqXp+=40;toast('Betul! Customer served.');}
  else{combo=0;wrong++;rep-=8;toast('Salah station! Reputation turun.')}

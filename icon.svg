@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#101a15"/>
+      <stop offset="1" stop-color="#020604"/>
+    </linearGradient>
+    <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#c8ff56"/>
+      <stop offset="1" stop-color="#62dc23"/>
+    </linearGradient>
+    <filter id="glow"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="512" height="512" rx="108" fill="url(#bg)"/>
+  <rect x="24" y="24" width="464" height="464" rx="92" fill="none" stroke="#263a30" stroke-width="10"/>
+  <path d="M112 150h74l70 82 70-82h74v212h-74V258l-70 82-70-82v104h-74z" fill="url(#lime)" filter="url(#glow)"/>
+  <path d="M126 389h260" stroke="#9cff23" stroke-width="12" stroke-linecap="round" opacity=".9"/>
+  <text x="256" y="442" text-anchor="middle" fill="#f4fff7" font-family="Arial,Helvetica,sans-serif" font-size="52" font-weight="900" letter-spacing="7">QUEST</text>
+</svg>

@@ -2,515 +2,112 @@
 <html lang="ms">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#050a08">
-<title>Meney Quest V0.6.4 · Phone Fit</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Meney Quest V0.7 · Living Shop</title>
 <style>
-:root{
-  --bg:#050a08;--panel:#0b1310;--panel2:#101c17;--line:#2a4034;
-  --lime:#9cff23;--green:#4de073;--text:#f4fff7;--muted:#9aae9f;
-  --red:#ff5968;--gold:#ffc93d;--blue:#54a9ff;--purple:#d469ff;
-}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#020604;color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
-button{font:inherit}
-body{overflow:hidden}
-.game{
-  width:100vw;height:100dvh;min-width:1040px;min-height:650px;
-  display:grid;grid-template-columns:230px minmax(600px,1fr) 250px;
-  grid-template-rows:86px 1fr 44px;gap:10px;padding:10px;
-  background:
-    radial-gradient(circle at 50% -10%,rgba(156,255,35,.09),transparent 36%),
-    linear-gradient(180deg,#07100c,#020604);
-}
-.panel,.top-card,.bottom-tip{
-  background:linear-gradient(155deg,rgba(15,27,22,.97),rgba(7,14,11,.97));
-  border:1px solid #294236;border-radius:16px;box-shadow:0 18px 45px rgba(0,0,0,.34)
-}
-.top{
-  grid-column:1/4;display:grid;grid-template-columns:350px repeat(4,1fr) 290px 64px;gap:9px
-}
-.logo-card{display:flex;align-items:center;gap:14px;padding:10px 15px}
-.logo{
-  width:54px;height:54px;border-radius:15px;display:grid;place-items:center;
-  background:#101b15;border:2px solid var(--lime);color:var(--lime);
-  font-size:30px;font-weight:1000;box-shadow:0 0 20px rgba(156,255,35,.16)
-}
-.title strong{display:block;font-size:22px;letter-spacing:.06em}.title span{font-size:12px;color:var(--lime);font-weight:900}
-.top-card{padding:10px 13px;display:flex;flex-direction:column;justify-content:center}
-.top-card small{color:var(--muted);font-size:9px;text-transform:uppercase;font-weight:900;letter-spacing:.08em}
-.top-card b{font-size:22px;margin-top:2px}.top-card .bar{margin-top:6px}
-.gear{border:1px solid #294236;border-radius:16px;background:#0d1713;color:white;font-size:24px}
-.bar{height:8px;background:#25332b;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#6bd83e,var(--lime));width:65%}
-.left,.right{grid-row:2;display:grid;gap:10px;align-content:start;overflow:auto}
-.left{grid-column:1}.right{grid-column:3}
-.panel{padding:15px}
-.panel h3{margin:0 0 12px;font-size:13px;letter-spacing:.04em}
-.goal-progress{display:flex;justify-content:space-between;font-size:12px;margin-bottom:7px}
-.statline{display:flex;justify-content:space-between;align-items:center;padding:6px 0;font-size:12px}
-.next-upgrade{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:center}
-.upgrade-icon{height:44px;border-radius:11px;background:#193224;border:1px solid #365944;display:grid;place-items:center;font-size:23px}
-.control{display:flex;gap:10px;margin:10px 0;color:#cbd8cf;font-size:11px;line-height:1.35}
-.key{min-width:28px;height:25px;border:1px solid #465b50;border-radius:6px;display:grid;place-items:center;background:#eef5ef;color:#111;font-weight:950}
-.tip{border-color:rgba(156,255,35,.6)}.tip strong{color:var(--lime)}
-.floor-wrap{
-  grid-column:2;grid-row:2;position:relative;min-width:0;min-height:0;
-  border:1px solid #30483a;border-radius:17px;overflow:hidden;background:#111;
-  box-shadow:0 25px 70px rgba(0,0,0,.48)
-}
-.floor{
-  position:absolute;inset:0;background-image:linear-gradient(rgba(3,8,5,.05),rgba(3,8,5,.08)),url("meney-shop-floor.jpg");
-  background-size:cover;background-position:center;filter:saturate(.94) brightness(.88)
-}
-.floor-shade{position:absolute;inset:0;background:radial-gradient(circle at 50% 47%,transparent 44%,rgba(2,7,4,.28) 100%);pointer-events:none}
-.floor-title{
-  position:absolute;left:50%;top:2.5%;transform:translateX(-50%);
-  padding:7px 18px;border-radius:999px;background:rgba(5,12,8,.86);
-  border:1px solid rgba(156,255,35,.55);font-size:12px;font-weight:1000;letter-spacing:.14em;color:var(--lime)
-}
-.customer{
-  position:absolute;width:58px;height:76px;transform:translate(-50%,-50%);
-  transition:left .7s cubic-bezier(.2,.8,.2,1),top .7s cubic-bezier(.2,.8,.2,1),opacity .35s;
-  cursor:pointer;z-index:5
-}
-.customer.selected .sprite{box-shadow:0 0 0 4px var(--lime),0 0 25px rgba(156,255,35,.7)}
-.sprite{
-  position:absolute;left:8px;bottom:0;width:42px;height:56px;border-radius:14px 14px 10px 10px;
-  background:var(--shirt,#326ddd);border:3px solid #101712;box-shadow:0 5px 0 rgba(0,0,0,.25)
-}
-.sprite:before{
-  content:"";position:absolute;left:7px;top:-20px;width:23px;height:24px;border-radius:9px;
-  background:var(--skin,#dca177);border:3px solid #101712
-}
-.sprite:after{
-  content:"";position:absolute;left:4px;top:-22px;width:29px;height:9px;border-radius:7px 7px 2px 2px;background:var(--hair,#211a16)
-}
-.face{position:absolute;left:21px;top:3px;width:4px;height:4px;background:#111;box-shadow:10px 0 #111;z-index:3}
-.bubble{
-  position:absolute;left:50%;bottom:74px;transform:translateX(-50%);
-  width:205px;min-height:82px;padding:12px 13px 10px;background:#fff5e6;color:#171b17;
-  border:2px solid #6f6658;border-radius:15px;box-shadow:0 8px 18px rgba(0,0,0,.24);
-  font-size:12px;font-weight:800;line-height:1.35;text-align:left
-}
-.bubble:after{content:"";position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);border:10px solid transparent;border-top-color:#6f6658}
-.bubble-text{display:block;min-height:34px;white-space:normal;overflow-wrap:anywhere}
-.patience-label{display:flex;justify-content:space-between;margin-top:7px;font-size:8px;text-transform:uppercase}
-.patience{height:7px;margin-top:3px;border-radius:999px;background:#25312b;overflow:hidden}.patience i{display:block;height:100%;background:linear-gradient(90deg,#f3a800,#ffe34f);width:100%}
-.station-hotspot{
-  position:absolute;z-index:4;border:2px solid transparent;border-radius:18px;background:transparent;cursor:pointer
-}
-.station-hotspot:hover,.station-hotspot.active{border-color:var(--lime);box-shadow:0 0 0 3px rgba(156,255,35,.18),inset 0 0 30px rgba(156,255,35,.10)}
-.station-label{
-  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-  padding:5px 9px;border-radius:999px;background:rgba(5,13,8,.84);color:white;font-size:10px;font-weight:950;opacity:0
-}
-.station-hotspot:hover .station-label,.station-hotspot.active .station-label{opacity:1}
-#salesStation{left:58%;top:44%;width:23%;height:25%}
-#repairStation{left:8%;top:41%;width:25%;height:26%}
-#tradeStation{left:35%;top:56%;width:24%;height:20%}
-#cashierStation{left:57%;top:65%;width:26%;height:20%}
-.order-card{
-  background:#fff3df;color:#151b16;border:1px solid #817666;border-radius:14px;padding:12px;
-  display:grid;grid-template-columns:47px 1fr;gap:10px
-}
-.order-avatar{width:45px;height:55px;border-radius:12px;background:#2f6ac9;border:3px solid #141a16;position:relative}
-.order-avatar:before{content:"";position:absolute;width:24px;height:24px;left:7px;top:-14px;border-radius:8px;background:#d99d72;border:3px solid #141a16}
-.order-card p{margin:0;font-size:12px;font-weight:850;line-height:1.4}
-.order-card .patience{margin-top:8px}
-.upcoming{display:grid;gap:8px}.upcoming-item{display:grid;grid-template-columns:37px 1fr;gap:9px;align-items:center;padding:10px;background:#13221b;border:1px solid #294236;border-radius:12px;font-size:11px}
-.upcoming-icon{width:36px;height:42px;border-radius:10px;background:#285ba8;display:grid;place-items:center;font-size:19px}
-.pause{position:absolute;right:13px;bottom:13px;z-index:9;width:76px;height:76px;border-radius:17px;border:1px solid #42584c;background:rgba(8,17,13,.9);color:white;font-weight:950}
-.pause b{display:block;font-size:24px}
-.bottom-tip{grid-column:1/4;grid-row:3;display:grid;place-items:center;font-size:12px}.bottom-tip b{color:var(--lime)}
-.overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:24px;background:rgba(1,5,3,.92);backdrop-filter:blur(8px)}
-.modal{width:min(480px,100%);padding:28px;border:1px solid #304a3b;border-radius:24px;background:linear-gradient(150deg,#14231b,#08100c);text-align:center}
-.modal-logo{width:76px;height:76px;border:2px solid var(--lime);border-radius:22px;margin:auto;display:grid;place-items:center;font-size:38px;color:var(--lime);font-weight:1000}
-.modal h1{margin:18px 0 7px}.modal p{color:var(--muted);line-height:1.55}
-.btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:11px;background:linear-gradient(135deg,var(--lime),#59d43c);color:#081009;font-weight:1000}
-.btn.secondary{background:#17271f;color:white;border:1px solid #355143}
-.hidden{display:none!important}
-.toast{position:absolute;z-index:40;left:50%;top:100px;transform:translateX(-50%);padding:10px 14px;border-radius:999px;background:#0b1811;border:1px solid #3d5c49;font-size:12px;font-weight:950;opacity:0;transition:.2s}.toast.show{opacity:1}
-@media(max-width:1200px){
-  .game{min-width:900px;grid-template-columns:190px minmax(530px,1fr) 210px}
-  .top{grid-template-columns:285px repeat(4,1fr) 230px 55px}
-  .bubble{width:180px;font-size:11px}
-}
-
-.mobile-order{
-  display:none;position:absolute;z-index:12;left:10px;right:10px;top:78px;
-  padding:9px 11px;border-radius:13px;background:rgba(7,16,11,.92);
-  border:1px solid rgba(156,255,35,.42);box-shadow:0 10px 25px rgba(0,0,0,.35);
-  font-size:11px;line-height:1.3;pointer-events:none
-}
-.mobile-stations{display:none}
-@media(max-width:700px){
-  html,body{height:100%;overflow:hidden}
-  body{overscroll-behavior:none}
-  .game{
-    width:100vw;height:100dvh;min-width:0;min-height:0;padding:0;
-    display:grid;grid-template-columns:1fr;grid-template-rows:74px minmax(0,1fr) 78px;
-    gap:0;background:#020604
-  }
-  .top{
-    grid-column:1;grid-row:1;display:grid;
-    grid-template-columns:minmax(150px,1.5fr) repeat(4,minmax(58px,.65fr));
-    gap:5px;padding:5px;background:#06100b;overflow:hidden
-  }
-  .logo-card{padding:7px 9px;gap:8px;border-radius:12px}
-  .logo{width:37px;height:37px;border-radius:11px;font-size:21px;flex:0 0 auto}
-  .title strong{font-size:13px;line-height:1.05;letter-spacing:.03em}
-  .title span{font-size:8px;white-space:nowrap}
-  .top-card{padding:6px 7px;border-radius:11px;min-width:0}
-  .top-card small{font-size:6px;letter-spacing:.02em;white-space:nowrap}
-  .top-card b{font-size:13px;white-space:nowrap}
-  .top-card .bar{height:5px;margin-top:3px}
-  .top .top-card:nth-of-type(6),.gear{display:none}
-  .left,.right,.bottom-tip{display:none!important}
-  .floor-wrap{
-    grid-column:1;grid-row:2;border-radius:0;border-left:0;border-right:0;
-    min-width:0;min-height:0;box-shadow:none
-  }
-  .floor{
-    background-size:cover;
-    background-position:center center;
-  }
-  .floor-title{
-    top:7px;padding:5px 10px;font-size:8px;letter-spacing:.08em;
-    max-width:80%;white-space:nowrap
-  }
-  .mobile-order{display:block}
-  .customer{width:42px;height:58px}
-  .sprite{left:6px;width:31px;height:42px;border-width:2px;border-radius:10px}
-  .sprite:before{left:5px;top:-15px;width:18px;height:19px;border-width:2px}
-  .sprite:after{left:3px;top:-17px;width:23px;height:7px}
-  .face{left:15px;top:2px;width:3px;height:3px;box-shadow:7px 0 #111}
-  .bubble{
-    width:min(150px,40vw);min-height:58px;bottom:56px;padding:8px 9px 7px;
-    border-radius:11px;border-width:1.5px;font-size:9px;line-height:1.25
-  }
-  .bubble-text{min-height:25px}
-  .patience-label{font-size:6px;margin-top:4px}
-  .patience{height:5px;margin-top:2px}
-  .bubble:after{bottom:-7px;border-width:7px}
-  .station-label{opacity:1;font-size:7px;padding:3px 6px}
-  .station-hotspot{border-radius:10px}
-  .pause{
-    right:8px;bottom:8px;width:47px;height:47px;border-radius:13px;font-size:8px
-  }
-  .pause b{font-size:17px}
-  .toast{top:45px;font-size:9px;padding:7px 9px;max-width:80%;white-space:normal;text-align:center}
-  .mobile-stations{
-    grid-column:1;grid-row:3;display:grid;grid-template-columns:repeat(4,1fr);
-    gap:5px;padding:6px;background:#06100b;border-top:1px solid #294236
-  }
-  .mobile-station{
-    border:1px solid #2d4939;border-radius:12px;background:#102018;color:white;
-    font-size:8px;font-weight:950;padding:6px 2px;display:grid;place-items:center
-  }
-  .mobile-station strong{display:block;font-size:18px;margin-bottom:1px}
-  .mobile-station:active,.mobile-station.active{border-color:var(--lime);background:#1a3422}
-  .overlay{padding:15px}
-  .modal{padding:22px 18px;border-radius:19px}
-  .modal-logo{width:60px;height:60px;font-size:30px}
-  .modal h1{font-size:23px}
-  .modal p{font-size:12px}
-  .btn{padding:13px}
-}
-@media(max-width:390px){
-  .top{grid-template-columns:minmax(135px,1.45fr) repeat(4,minmax(48px,.58fr))}
-  .title strong{font-size:12px}
-  .logo{width:34px;height:34px}
-  .top-card b{font-size:12px}
-  .bubble{width:min(136px,38vw);font-size:8.5px}
-}
-
-
-/* V0.6.3 mobile full-view and touch fixes */
-.bubble{pointer-events:none}
-.customer.selected{z-index:18}
-@media(max-width:700px){
-  .floor{
-    background-size:100% 100% !important;
-    background-position:center center !important;
-    background-repeat:no-repeat !important;
-  }
-  .floor-wrap{
-    background:#050806;
-  }
-  .customer{
-    width:86px !important;
-    height:104px !important;
-    margin-left:-22px;
-    margin-top:-20px;
-    cursor:pointer;
-    touch-action:manipulation;
-  }
-  .customer .sprite{
-    left:28px !important;
-    bottom:8px !important;
-  }
-  .customer .bubble{
-    left:50% !important;
-    bottom:67px !important;
-    transform:translateX(-50%) !important;
-  }
-  .station-hotspot{
-    touch-action:manipulation;
-  }
-  .mobile-order{
-    top:70px;
-    min-height:44px;
-    display:flex;
-    align-items:center;
-  }
-}
-
-
-/* V0.6.4 exact phone viewport fit */
-:root{--app-height:100dvh}
-@media(max-width:700px){
-  html,body{width:100%;height:var(--app-height);max-height:var(--app-height);margin:0;overflow:hidden;background:#020604}
-  body{position:fixed;inset:0;touch-action:manipulation}
-  .game{
-    position:fixed!important;inset:0!important;width:100vw!important;height:var(--app-height)!important;
-    min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
-    grid-template-rows:68px minmax(0,1fr) 72px!important;overflow:hidden!important
-  }
-  .floor-wrap{width:100%!important;height:100%!important;overflow:hidden!important;background:#040806!important}
-  .floor{
-    inset:0!important;width:100%!important;height:100%!important;
-    background-size:contain!important;background-position:center center!important;background-repeat:no-repeat!important;
-    background-color:#040806!important
-  }
-  .floor-shade{display:none!important}
-  .top{height:68px!important;min-height:68px!important}
-  .mobile-stations{height:72px!important;min-height:72px!important}
-  .mobile-order{top:58px!important;left:7px!important;right:7px!important;font-size:9px!important;min-height:36px!important;padding:7px 9px!important}
-  .floor-title{top:4px!important;font-size:7px!important;padding:4px 8px!important}
-  .pause{width:42px!important;height:42px!important;right:6px!important;bottom:6px!important}
-  .customer{transform:translate(-50%,-50%) scale(.82)!important;transform-origin:center bottom!important;margin:0!important}
-  .customer .bubble{width:min(132px,36vw)!important;font-size:8px!important;bottom:62px!important}
-}
-
+:root{--bg:#030705;--panel:#0b1310;--panel2:#101c17;--line:#294236;--lime:#9cff23;--green:#4de073;--text:#f4fff7;--muted:#9aae9f;--red:#ff5968;--gold:#ffc93d;--blue:#54a9ff;--purple:#d469ff;--app-h:100dvh}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020503;color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+button{font:inherit;cursor:pointer}.hidden{display:none!important}
+.scanlines{pointer-events:none;position:fixed;inset:0;z-index:500;background:repeating-linear-gradient(180deg,transparent 0 3px,rgba(255,255,255,.012) 4px);mix-blend-mode:screen}
+.game{position:fixed;inset:0;width:100vw;height:var(--app-h);display:grid;grid-template-columns:226px minmax(600px,1fr) 254px;grid-template-rows:82px minmax(0,1fr) 42px;gap:9px;padding:9px;background:radial-gradient(circle at 50% -20%,rgba(156,255,35,.13),transparent 38%),linear-gradient(180deg,#08110d,#020604)}
+.panel,.top-card,.bottom-tip{background:linear-gradient(155deg,rgba(15,27,22,.97),rgba(6,13,10,.97));border:1px solid var(--line);border-radius:15px;box-shadow:0 16px 42px rgba(0,0,0,.38)}
+.top{grid-column:1/4;display:grid;grid-template-columns:320px repeat(5,minmax(96px,1fr)) 56px;gap:8px}.logo-card{display:flex;align-items:center;gap:12px;padding:9px 13px}.logo-img{width:54px;height:54px;border-radius:14px;box-shadow:0 0 24px rgba(156,255,35,.22)}.title strong{display:block;font-size:19px;letter-spacing:.06em}.title span{font-size:10px;color:var(--lime);font-weight:900;letter-spacing:.08em}.top-card{padding:9px 11px;display:flex;flex-direction:column;justify-content:center;min-width:0}.top-card small{color:var(--muted);font-size:8px;text-transform:uppercase;font-weight:900;letter-spacing:.08em}.top-card b{font-size:18px;margin-top:2px;white-space:nowrap}.gear{border:1px solid var(--line);border-radius:15px;background:#0d1713;color:#fff;font-size:21px}.bar{height:7px;background:#25332b;border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,#61d73a,var(--lime));transition:width .25s}
+.left,.right{grid-row:2;display:grid;gap:9px;align-content:start;overflow:auto;scrollbar-width:none}.left{grid-column:1}.right{grid-column:3}.panel{padding:13px}.panel h3{margin:0 0 10px;font-size:12px;letter-spacing:.06em}.statline,.goal-progress{display:flex;justify-content:space-between;align-items:center;font-size:11px}.statline{padding:5px 0}.mini-card{padding:9px;border:1px solid #294236;border-radius:11px;background:#122019;margin-top:7px;font-size:10px}.mini-card strong{color:var(--lime)}
+.floor-wrap{grid-column:2;grid-row:2;position:relative;overflow:hidden;border:1px solid #30483a;border-radius:16px;background:#040806;box-shadow:0 24px 64px rgba(0,0,0,.5)}
+.camera{position:absolute;inset:-2%;transform:scale(1.04);transition:transform 3s ease}.floor{position:absolute;inset:0;background-image:linear-gradient(rgba(2,8,4,.02),rgba(2,8,4,.08)),url("meney-shop-floor.jpg");background-size:cover;background-position:center;filter:saturate(.96) brightness(.83)}
+.ambient{position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at var(--lx,50%) var(--ly,35%),rgba(156,255,35,.08),transparent 24%),linear-gradient(90deg,rgba(0,0,0,.13),transparent 15% 85%,rgba(0,0,0,.13));animation:ambientMove 9s ease-in-out infinite alternate}@keyframes ambientMove{to{--lx:62%;--ly:45%}}
+.light{position:absolute;width:110px;height:65px;border-radius:50%;filter:blur(22px);opacity:.22;pointer-events:none;animation:pulse 2.4s ease-in-out infinite alternate}.light.a{left:8%;top:12%;background:var(--gold)}.light.b{right:8%;top:18%;background:var(--lime);animation-delay:.8s}.light.c{left:43%;bottom:10%;background:var(--purple);animation-delay:1.4s}@keyframes pulse{to{opacity:.38;transform:scale(1.2)}}
+.pixel-particles{position:absolute;inset:0;pointer-events:none;overflow:hidden}.particle{position:absolute;width:3px;height:3px;background:var(--lime);opacity:.3;animation:floatUp linear infinite}@keyframes floatUp{from{transform:translateY(20px);opacity:0}30%{opacity:.45}to{transform:translateY(-120px);opacity:0}}
+.floor-title{position:absolute;left:50%;top:2%;transform:translateX(-50%);padding:6px 14px;border-radius:999px;background:rgba(5,12,8,.86);border:1px solid rgba(156,255,35,.55);font-size:10px;font-weight:1000;letter-spacing:.12em;color:var(--lime);z-index:20}
+.station{position:absolute;z-index:6;border:2px solid transparent;border-radius:16px;background:transparent}.station:hover,.station.active{border-color:var(--lime);box-shadow:0 0 0 3px rgba(156,255,35,.16),inset 0 0 30px rgba(156,255,35,.09)}.station-label{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);padding:5px 8px;border-radius:999px;background:rgba(5,13,8,.86);font-size:9px;font-weight:950;opacity:0;white-space:nowrap}.station:hover .station-label,.station.active .station-label{opacity:1}
+#salesStation{left:61%;top:43%;width:24%;height:27%}#repairStation{left:5%;top:40%;width:28%;height:28%}#tradeStation{left:36%;top:57%;width:23%;height:21%}#cashierStation{left:65%;top:67%;width:26%;height:19%}
+.customer,.staff{position:absolute;transform:translate(-50%,-50%);transition:left .65s cubic-bezier(.2,.8,.2,1),top .65s cubic-bezier(.2,.8,.2,1),opacity .25s;z-index:12}.customer{width:62px;height:78px;cursor:pointer}.customer.selected{z-index:30}.customer.selected .sprite{box-shadow:0 0 0 4px var(--lime),0 0 25px rgba(156,255,35,.7)}.sprite{position:absolute;left:10px;bottom:0;width:42px;height:54px;border-radius:13px 13px 9px 9px;background:var(--shirt,#326ddd);border:3px solid #101712;box-shadow:0 5px 0 rgba(0,0,0,.25);animation:bob 1.6s ease-in-out infinite alternate}.sprite:before{content:"";position:absolute;left:7px;top:-20px;width:23px;height:24px;border-radius:9px;background:var(--skin,#dca177);border:3px solid #101712}.sprite:after{content:"";position:absolute;left:4px;top:-22px;width:29px;height:9px;border-radius:7px 7px 2px 2px;background:var(--hair,#211a16)}@keyframes bob{to{transform:translateY(-2px)}}.staff .sprite{filter:drop-shadow(0 0 5px rgba(156,255,35,.22))}.staff-tag{position:absolute;left:50%;bottom:-16px;transform:translateX(-50%);font-size:7px;background:#07100b;border:1px solid #365944;border-radius:999px;padding:2px 5px;white-space:nowrap}.bubble{position:absolute;left:50%;bottom:72px;transform:translateX(-50%);width:190px;min-height:70px;padding:10px 11px 8px;background:#fff5e6;color:#171b17;border:2px solid #6f6658;border-radius:13px;box-shadow:0 8px 18px rgba(0,0,0,.25);font-size:11px;font-weight:800;line-height:1.3}.bubble:after{content:"";position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);border:9px solid transparent;border-top-color:#6f6658}.patience-label{display:flex;justify-content:space-between;margin-top:5px;font-size:7px;text-transform:uppercase}.patience{height:6px;margin-top:3px;border-radius:999px;background:#25312b;overflow:hidden}.patience i{display:block;height:100%;background:linear-gradient(90deg,#f3a800,#ffe34f);transition:width .15s}.task-icon{position:absolute;right:-1px;top:7px;width:21px;height:21px;display:grid;place-items:center;border-radius:8px;background:#09110d;border:1px solid #385a45;font-size:12px}
+.toast{position:absolute;z-index:80;left:50%;top:70px;transform:translateX(-50%);padding:9px 13px;border-radius:999px;background:#0b1811;border:1px solid #3d5c49;font-size:11px;font-weight:950;opacity:0;transition:.2s}.toast.show{opacity:1}.event-banner{position:absolute;z-index:25;left:50%;top:12%;transform:translateX(-50%) translateY(-15px);min-width:280px;padding:10px 16px;border-radius:13px;text-align:center;background:linear-gradient(135deg,#321a08,#171006);border:1px solid var(--gold);color:#fff0be;font-size:11px;font-weight:900;opacity:0;transition:.3s;pointer-events:none}.event-banner.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.pause{position:absolute;right:10px;bottom:10px;z-index:30;width:62px;height:62px;border-radius:15px;border:1px solid #42584c;background:rgba(8,17,13,.92);color:#fff;font-size:9px;font-weight:950}.pause b{display:block;font-size:21px}.bottom-tip{grid-column:1/4;grid-row:3;display:grid;place-items:center;font-size:10px}.bottom-tip b{color:var(--lime)}
+.order-card{background:#fff3df;color:#151b16;border:1px solid #817666;border-radius:12px;padding:10px}.order-card p{margin:0;font-size:11px;font-weight:850;line-height:1.35}.queue-item{display:grid;grid-template-columns:30px 1fr auto;gap:7px;align-items:center;padding:8px;background:#122019;border:1px solid #294236;border-radius:10px;font-size:9px;margin-top:6px}.queue-item span:first-child{font-size:16px}.stock-row{display:grid;grid-template-columns:1fr 46px;gap:8px;align-items:center;font-size:10px;margin:7px 0}.stock-row b{text-align:right}.danger{color:var(--red)!important}.gold{color:var(--gold)!important}.lime{color:var(--lime)!important}
+.overlay{position:fixed;inset:0;z-index:300;display:grid;place-items:center;padding:20px;background:rgba(1,5,3,.94);backdrop-filter:blur(8px)}.modal{width:min(470px,100%);padding:25px;border:1px solid #304a3b;border-radius:22px;background:linear-gradient(150deg,#14231b,#08100c);text-align:center;box-shadow:0 24px 80px rgba(0,0,0,.65)}.modal-logo{width:86px;height:86px;margin:auto;border-radius:20px}.modal h1{margin:15px 0 6px}.modal p{color:var(--muted);font-size:12px;line-height:1.5}.btn{width:100%;border:0;border-radius:12px;padding:13px;margin-top:10px;background:linear-gradient(135deg,var(--lime),#59d43c);color:#081009;font-weight:1000}.btn.secondary{background:#17271f;color:#fff;border:1px solid #355143}
+#splash{background:#010402}.splash-logo{width:120px;height:120px;border-radius:28px;filter:drop-shadow(0 0 28px rgba(156,255,35,.35));animation:splashPop .75s cubic-bezier(.2,.9,.2,1) both}@keyframes splashPop{from{opacity:0;transform:scale(.55) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}.splash-title{font-size:28px;font-weight:1000;letter-spacing:.08em;margin-top:16px}.splash-title span{color:var(--lime)}.loading{width:min(320px,76vw);height:8px;margin:18px auto 7px;border-radius:999px;background:#1d2a22;overflow:hidden}.loading i{display:block;height:100%;width:0;background:linear-gradient(90deg,#4bcf3f,var(--lime));animation:load3 3s linear forwards}@keyframes load3{to{width:100%}}.loading-text{font-size:10px;color:var(--muted);letter-spacing:.12em}.splash-pixels{position:absolute;inset:0;overflow:hidden;pointer-events:none}.splash-pixels i{position:absolute;width:4px;height:4px;background:var(--lime);animation:fall 2s linear infinite}@keyframes fall{from{transform:translateY(-20px);opacity:0}20%{opacity:.6}to{transform:translateY(100vh);opacity:0}}
+.mobile-order,.mobile-stations{display:none}
+@media(max-width:1100px){.game{grid-template-columns:190px minmax(520px,1fr) 210px}.top{grid-template-columns:270px repeat(5,minmax(80px,1fr)) 50px}.title strong{font-size:16px}.bubble{width:165px;font-size:10px}}
+@media(max-width:700px){.game{padding:0;gap:0;grid-template-columns:1fr;grid-template-rows:64px minmax(0,1fr) 70px}.top{grid-column:1;grid-row:1;grid-template-columns:minmax(135px,1.3fr) repeat(4,minmax(48px,.62fr));gap:4px;padding:4px;background:#06100b}.logo-card{padding:5px 7px;gap:6px;border-radius:10px}.logo-img{width:34px;height:34px;border-radius:9px}.title strong{font-size:11px}.title span{font-size:6px}.top-card{padding:5px 6px;border-radius:10px}.top-card small{font-size:5.5px}.top-card b{font-size:11px}.top .top-card:nth-of-type(6),.gear,.left,.right,.bottom-tip{display:none!important}.floor-wrap{grid-column:1;grid-row:2;border-radius:0;border-left:0;border-right:0}.camera{inset:0;transform:none!important}.floor{background-size:100% 100%;background-position:center}.floor-title{top:4px;font-size:6px;padding:4px 7px}.mobile-order{display:block;position:absolute;z-index:40;left:6px;right:6px;top:34px;min-height:34px;padding:7px 8px;border-radius:10px;background:rgba(7,16,11,.93);border:1px solid rgba(156,255,35,.42);font-size:8px;line-height:1.25;pointer-events:none}.mobile-stations{grid-column:1;grid-row:3;display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:5px;background:#06100b;border-top:1px solid #294236}.mobile-station{border:1px solid #2d4939;border-radius:10px;background:#102018;color:#fff;font-size:7px;font-weight:950;padding:5px 1px}.mobile-station strong{display:block;font-size:16px}.customer{width:80px;height:96px;transform:translate(-50%,-50%) scale(.72);transform-origin:center bottom}.bubble{width:min(145px,39vw);font-size:8px;bottom:65px;min-height:55px;padding:7px 8px}.station-label{opacity:1;font-size:6px;padding:3px 5px}.pause{width:42px;height:42px;right:6px;bottom:6px}.pause b{font-size:15px}.toast{top:40px;font-size:8px;max-width:80%;text-align:center}.event-banner{top:16%;min-width:230px;font-size:8px}.staff{transform:translate(-50%,-50%) scale(.72)}.modal{padding:20px 16px}.modal-logo{width:68px;height:68px}.modal h1{font-size:22px}}
 </style>
 </head>
 <body>
+<div class="scanlines"></div>
+<section id="splash" class="overlay"><div class="splash-pixels" id="splashPixels"></div><div style="text-align:center;z-index:2"><img class="splash-logo" src="icon-512.png" alt="Meney Quest"><div class="splash-title">MENEY <span>QUEST</span></div><div class="loading"><i></i></div><div class="loading-text" id="loadingText">LOADING SHOP FLOOR · 0%</div></div></section>
 <div class="game">
-  <header class="top">
-    <div class="panel logo-card"><div class="logo">M</div><div class="title"><strong>MENEY QUEST</strong><span>SHOP FLOOR V0.6.4</span></div></div>
-    <div class="top-card"><small>Coins</small><b id="coins">0</b></div>
-    <div class="top-card"><small>Reputation</small><b id="rep">100%</b><div class="bar"><i id="repBar"></i></div></div>
-    <div class="top-card"><small>Combo</small><b id="combo">x0</b></div>
-    <div class="top-card"><small>Shift Time</small><b id="timer">05:00</b></div>
-    <div class="top-card"><small>HQ Level 1</small><div class="bar"><i id="hqBar" style="width:0%"></i></div><b style="font-size:12px" id="hqXp">0 / 500 XP</b></div>
-    <button class="gear">⚙</button>
-  </header>
-
-  <aside class="left">
-    <section class="panel"><h3>🚩 TODAY'S GOAL</h3><div class="goal-progress"><span>Serve customers</span><b id="goalText">0 / 15</b></div><div class="bar"><i id="goalBar" style="width:0%"></i></div></section>
-    <section class="panel"><h3>STATS</h3>
-      <div class="statline"><span>🟢 Served</span><b id="served">0</b></div>
-      <div class="statline"><span>❌ Incorrect</span><b id="incorrect">0</b></div>
-      <div class="statline"><span>😡 Left Angry</span><b id="angry">0</b></div>
-      <div class="statline"><span>🔥 Max Combo</span><b id="maxCombo">0</b></div>
-      <div class="statline"><span>⏱ Best Score</span><b id="bestScore">0</b></div>
-    </section>
-    <section class="panel"><h3>NEXT UPGRADE</h3><div class="next-upgrade"><div class="upgrade-icon">🏪</div><div><b>Lv.2 Bigger Store</b><br><small>+1 Waiting Seat</small></div></div><div class="bar" style="margin-top:12px"><i id="upgradeBar" style="width:0%"></i></div></section>
-    <section class="panel"><h3>CONTROLS</h3><div class="control"><span class="key">🖱</span><span>Click customer<br>to select</span></div><div class="control"><span class="key">↗</span><span>Click station<br>to send</span></div><div class="control"><span class="key">ESC</span><span>Pause / Menu</span></div></section>
-    <section class="panel tip"><h3>💡 TIPS</h3><div style="font-size:12px;line-height:1.55">Hantar customer ke station yang <strong>BETUL</strong> sebelum patience habis.</div></section>
-  </aside>
-
-  <main class="floor-wrap">
-    <div class="floor"></div><div class="floor-shade"></div>
-    <div class="floor-title">MENEY GAMING · LIVE SHOP FLOOR</div>
-    <div id="mobileOrder" class="mobile-order">Tap customer untuk lihat order.</div>
-    <div id="salesStation" class="station-hotspot" data-station="sales"><div class="station-label">SALES COUNTER</div></div>
-    <div id="repairStation" class="station-hotspot" data-station="repair"><div class="station-label">REPAIR BENCH</div></div>
-    <div id="tradeStation" class="station-hotspot" data-station="trade"><div class="station-label">TRADE-IN DESK</div></div>
-    <div id="cashierStation" class="station-hotspot" data-station="cashier"><div class="station-label">CASHIER</div></div>
-    <div id="customerLayer"></div>
-    <div id="toast" class="toast"></div>
-    <button id="pauseBtn" class="pause"><b>Ⅱ</b>PAUSE</button>
-  </main>
-
-
-  <nav class="mobile-stations">
-    <button class="mobile-station" data-mobile-station="sales"><span><strong>🎮</strong>SALES</span></button>
-    <button class="mobile-station" data-mobile-station="repair"><span><strong>🛠️</strong>REPAIR</span></button>
-    <button class="mobile-station" data-mobile-station="trade"><span><strong>🔁</strong>TRADE-IN</span></button>
-    <button class="mobile-station" data-mobile-station="cashier"><span><strong>💳</strong>CASHIER</span></button>
-  </nav>
-
-  <aside class="right">
-    <section class="panel"><h3>CURRENT ORDER</h3><div id="currentOrder"><div style="color:var(--muted);font-size:12px">Select a customer inside the shop.</div></div></section>
-    <section class="panel"><h3>UPCOMING</h3><div id="upcoming" class="upcoming"></div></section>
-  </aside>
-
-  <footer class="bottom-tip">TIP: Hantar customer ke station yang <b>&nbsp;BETUL&nbsp;</b> sebelum patience habis!</footer>
+<header class="top">
+<div class="panel logo-card"><img src="icon-192.png" class="logo-img" alt=""><div class="title"><strong>MENEY QUEST</strong><span>LIVING SHOP V0.7</span></div></div>
+<div class="top-card"><small>Coins</small><b id="coins">0</b></div>
+<div class="top-card"><small>Reputation</small><b id="rep">100%</b><div class="bar"><i id="repBar"></i></div></div>
+<div class="top-card"><small>Combo</small><b id="combo">x0</b></div>
+<div class="top-card"><small>Shift Time</small><b id="timer">05:00</b></div>
+<div class="top-card"><small>Store Level</small><b id="level">Lv.1</b><div class="bar"><i id="xpBar"></i></div></div>
+<button class="gear" id="soundBtn">🔊</button>
+</header>
+<aside class="left">
+<section class="panel"><h3>🚩 TODAY'S QUEST</h3><div class="goal-progress"><span>Serve customers</span><b id="goalText">0 / 18</b></div><div class="bar" style="margin-top:7px"><i id="goalBar" style="width:0%"></i></div><div class="mini-card" id="questBonus">Complete: <strong>+500 coins</strong></div></section>
+<section class="panel"><h3>STORE STATS</h3><div class="statline"><span>✅ Served</span><b id="served">0</b></div><div class="statline"><span>❌ Wrong</span><b id="wrong">0</b></div><div class="statline"><span>😡 Angry</span><b id="angry">0</b></div><div class="statline"><span>🔥 Max Combo</span><b id="maxCombo">0</b></div><div class="statline"><span>⭐ Best Score</span><b id="best">0</b></div></section>
+<section class="panel"><h3>LIVE INVENTORY</h3><div class="stock-row"><span>PS5 Consoles</span><b id="stockPs5">5</b></div><div class="stock-row"><span>Controllers</span><b id="stockPad">8</b></div><div class="stock-row"><span>Games</span><b id="stockGame">12</b></div><div class="stock-row"><span>Repair Slots</span><b id="repairSlots">3</b></div></section>
+<section class="panel"><h3>UPGRADES</h3><button class="btn" id="upgradeBtn" style="font-size:10px;padding:9px">Upgrade Store · 1,500</button><div class="mini-card">Higher level = faster service & more customers.</div></section>
+</aside>
+<main class="floor-wrap" id="floorWrap"><div class="camera" id="camera"><div class="floor"></div><div class="ambient"></div><div class="light a"></div><div class="light b"></div><div class="light c"></div><div class="pixel-particles" id="particles"></div></div><div class="floor-title">MENEY GAMING · KOTA BHARU</div><div id="mobileOrder" class="mobile-order">Tap customer untuk lihat permintaan.</div><div id="salesStation" class="station" data-station="sales"><div class="station-label">SALES</div></div><div id="repairStation" class="station" data-station="repair"><div class="station-label">REPAIR</div></div><div id="tradeStation" class="station" data-station="trade"><div class="station-label">TRADE-IN</div></div><div id="cashierStation" class="station" data-station="cashier"><div class="station-label">CASHIER</div></div><div id="staffLayer"></div><div id="customerLayer"></div><div id="toast" class="toast"></div><div id="eventBanner" class="event-banner"></div><button id="pauseBtn" class="pause"><b>Ⅱ</b>PAUSE</button></main>
+<nav class="mobile-stations"><button class="mobile-station" data-mobile-station="sales"><strong>🎮</strong>SALES</button><button class="mobile-station" data-mobile-station="repair"><strong>🛠️</strong>REPAIR</button><button class="mobile-station" data-mobile-station="trade"><strong>🔁</strong>TRADE-IN</button><button class="mobile-station" data-mobile-station="cashier"><strong>💳</strong>CASHIER</button></nav>
+<aside class="right"><section class="panel"><h3>CURRENT CUSTOMER</h3><div id="currentOrder" style="color:var(--muted);font-size:11px">Select a customer.</div></section><section class="panel"><h3>QUEUE</h3><div id="queue"></div></section><section class="panel"><h3>STORE EVENT</h3><div id="eventInfo" class="mini-card">No active event.</div></section><section class="panel"><h3>STAFF</h3><div class="statline"><span>Amirul · Sales</span><b class="lime">Lv.2</b></div><div class="statline"><span>Haziq · Repair</span><b class="lime">Lv.1</b></div><div class="mini-card">Staff bantu servis customer secara automatik apabila station tidak sibuk.</div></section></aside>
+<footer class="bottom-tip">SELECT CUSTOMER → SEND TO THE CORRECT STATION → BUILD YOUR <b>&nbsp;MENEY EMPIRE</b></footer>
 </div>
-
-<section id="startOverlay" class="overlay">
-  <div class="modal"><div class="modal-logo">M</div><h1>Meney Quest</h1><p>Shop Floor Deluxe prototype. Urus customer dalam kedai Meney, pilih station yang tepat dan bina reputasi.</p><button id="startBtn" class="btn">OPEN SHOP</button><button id="resetBtn" class="btn secondary">RESET SAVE</button></div>
-</section>
-<section id="pauseOverlay" class="overlay hidden"><div class="modal"><h1>Game Paused</h1><p>Shift sedang dihentikan sementara.</p><button id="resumeBtn" class="btn">RESUME</button></div></section>
+<section id="startOverlay" class="overlay hidden"><div class="modal"><img src="icon-192.png" class="modal-logo" alt=""><h1>Meney Quest</h1><p>Urus kedai gaming hidup: customer bergerak, stok berubah, staff membantu, event berlaku dan kedai boleh dinaik taraf.</p><button id="startBtn" class="btn">OPEN SHOP</button><button id="resetBtn" class="btn secondary">RESET SAVE</button></div></section>
+<section id="pauseOverlay" class="overlay hidden"><div class="modal"><h1>Game Paused</h1><p>Shift dihentikan sementara.</p><button id="resumeBtn" class="btn">RESUME</button></div></section>
 <section id="endOverlay" class="overlay hidden"><div class="modal"><h1>Shift Complete</h1><p id="endText"></p><button id="againBtn" class="btn">PLAY AGAIN</button></div></section>
-
 <script>
 (()=>{
-function syncViewportHeight(){
-  const h=(window.visualViewport&&window.visualViewport.height)||window.innerHeight;
-  document.documentElement.style.setProperty('--app-height',h+'px');
-}
-syncViewportHeight();
-window.addEventListener('resize',syncViewportHeight);
-if(window.visualViewport){
-  window.visualViewport.addEventListener('resize',syncViewportHeight);
-  window.visualViewport.addEventListener('scroll',syncViewportHeight);
-}
-const $=id=>document.getElementById(id);
-const layer=$('customerLayer');
-const spots={
- sales:{x:69,y:53},repair:{x:20,y:52},trade:{x:47,y:65},cashier:{x:70,y:75},
- wait1:{x:42,y:34},wait2:{x:55,y:35},wait3:{x:31,y:37},entrance:{x:50,y:92}
-};
+const $=id=>document.getElementById(id);let vh=()=>{const h=(visualViewport&&visualViewport.height)||innerHeight;document.documentElement.style.setProperty('--app-h',h+'px')};vh();addEventListener('resize',vh);visualViewport&&visualViewport.addEventListener('resize',vh);
+for(let i=0;i<28;i++){const p=document.createElement('i');p.className='particle';p.style.left=Math.random()*100+'%';p.style.top=(20+Math.random()*80)+'%';p.style.animationDuration=(4+Math.random()*7)+'s';p.style.animationDelay=(-Math.random()*8)+'s';$('particles').appendChild(p)}
+for(let i=0;i<36;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.top=(-Math.random()*100)+'%';p.style.animationDelay=(-Math.random()*2)+'s';p.style.animationDuration=(1.6+Math.random()*2)+'s';$('splashPixels').appendChild(p)}
+let lp=0;const loadInt=setInterval(()=>{$('loadingText').textContent='LOADING SHOP FLOOR · '+Math.min(100,lp+=4)+'%'},120);setTimeout(()=>{clearInterval(loadInt);$('loadingText').textContent='READY · 100%';$('splash').classList.add('hidden');$('startOverlay').classList.remove('hidden')},3000);
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+const spots={sales:{x:74,y:55},repair:{x:18,y:55},trade:{x:48,y:69},cashier:{x:78,y:79},wait1:{x:48,y:34},wait2:{x:61,y:35},wait3:{x:36,y:36},wait4:{x:27,y:38},entrance:{x:50,y:96}};
 const requests=[
- {type:'sales',text:'Saya nak PS5 bawah RM2,000.',icon:'🎮',name:'Aiman',shirt:'#245fba'},
- {type:'repair',text:'Controller saya stick drift la boss.',icon:'🎮',name:'Hakim',shirt:'#c44a33'},
- {type:'trade',text:'Saya nak trade-in PS4 boleh?',icon:'🔄',name:'Faris',shirt:'#28769c'},
- {type:'sales',text:'Ada game FC 24 untuk PS5 tak?',icon:'💿',name:'Nadia',shirt:'#2e9361'},
- {type:'cashier',text:'Saya dah ready nak bayar.',icon:'💳',name:'Amir',shirt:'#8557bd'},
- {type:'repair',text:'Console saya cepat panas.',icon:'🛠',name:'Syafiq',shirt:'#c17b2f'},
- {type:'trade',text:'Nak jual koleksi game lama.',icon:'📦',name:'Izzat',shirt:'#3c7d46'},
- {type:'cashier',text:'Nak collect repair siap.',icon:'🧾',name:'Azlan',shirt:'#3a65a9'}
-];
-let customers=[],selected=null,running=false,paused=false,last=0,time=300,spawn=0,coins=0,rep=100,combo=0,maxCombo=0,served=0,wrong=0,angry=0,hqXp=0;
-let meta=load();
-function load(){try{return JSON.parse(localStorage.getItem('mqV06'))||{best:0}}catch{return {best:0}}}
-function save(){localStorage.setItem('mqV06',JSON.stringify(meta))}
-function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),1000)}
-function fmt(t){t=Math.max(0,Math.ceil(t));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}
-function spawnCustomer(){
- if(customers.length>=3)return;
- const base={...requests[Math.floor(Math.random()*requests.length)]};
- const waiting=[spots.wait1,spots.wait2,spots.wait3][customers.length];
- customers.push({...base,id:crypto.randomUUID(),x:spots.entrance.x,y:spots.entrance.y,tx:waiting.x,ty:waiting.y,state:'walking',patience:100,selected:false,serve:0});
- renderCustomers();
-}
-function customerHtml(c){
- return `<div class="customer ${selected===c.id?'selected':''}" data-id="${c.id}" style="left:${c.x}%;top:${c.y}%;--shirt:${c.shirt};--skin:#dca177;--hair:#1e1815">
-   <div class="bubble"><span class="bubble-text">${c.text} &nbsp; ${c.icon}</span><div class="patience-label"><span>PATIENCE</span><b>${Math.ceil(c.patience)}%</b></div><div class="patience"><i style="width:${c.patience}%"></i></div></div>
-   <div class="sprite"><i class="face"></i></div>
- </div>`;
-}
-function renderCustomers(){
- layer.innerHTML=customers.map(customerHtml).join('');
- document.querySelectorAll('.customer').forEach(el=>el.onclick=()=>{
-   const c=customers.find(x=>x.id===el.dataset.id);
-   if(!c||c.state!=='waiting')return;
-   selected=c.id;renderCustomers();renderOrder();
- });
- renderUpcoming();
-}
-function renderOrder(){
- const c=customers.find(x=>x.id===selected);
- if(!c){
-   $('currentOrder').innerHTML='<div style="color:var(--muted);font-size:12px">Select a customer inside the shop.</div>';
-   $('mobileOrder').innerHTML='Tap customer untuk lihat order.';
-   return;
- }
- $('currentOrder').innerHTML=`<div class="order-card"><div class="order-avatar" style="background:${c.shirt}"></div><div><p>${c.text} ${c.icon}</p><small style="color:#4c554e">${c.name}</small><div class="patience-label"><span>PATIENCE</span><b>${Math.ceil(c.patience)}%</b></div><div class="patience"><i style="width:${c.patience}%"></i></div></div></div>`;
- $('mobileOrder').innerHTML=`<b>${c.name}</b> · ${c.text} ${c.icon} &nbsp; <span style="color:var(--gold)">${Math.ceil(c.patience)}%</span>`;
-}
-function renderUpcoming(){
- const arr=customers.filter(c=>c.id!==selected&&c.state==='waiting').slice(0,3);
- $('upcoming').innerHTML=arr.length?arr.map(c=>`<div class="upcoming-item"><div class="upcoming-icon">${c.icon}</div><div>${c.text}</div></div>`).join(''):'<div style="color:var(--muted);font-size:12px">No upcoming customers.</div>';
-}
-function updateHud(){
- $('coins').textContent=coins.toLocaleString();$('rep').textContent=Math.max(0,Math.round(rep))+'%';$('repBar').style.width=Math.max(0,rep)+'%';
- $('combo').textContent='x'+combo;$('timer').textContent=fmt(time);$('served').textContent=served;$('incorrect').textContent=wrong;$('angry').textContent=angry;$('maxCombo').textContent=maxCombo;$('bestScore').textContent=meta.best;
- $('goalText').textContent=`${served} / 15`;$('goalBar').style.width=Math.min(100,served/15*100)+'%';$('hqXp').textContent=`${hqXp} / 500 XP`;$('hqBar').style.width=Math.min(100,hqXp/500*100)+'%';$('upgradeBar').style.width=Math.min(100,hqXp/500*100)+'%';
-}
-function move(c,dt){
- const dx=c.tx-c.x,dy=c.ty-c.y,d=Math.hypot(dx,dy);
- if(d<.7){c.x=c.tx;c.y=c.ty;return true}
- const speed=22;c.x+=dx/d*speed*dt;c.y+=dy/d*speed*dt;return false
-}
-function sendTo(station){
- if(!running||paused)return;
- const c=customers.find(x=>x.id===selected);
- if(!c)return toast('Pilih customer dahulu');
- if(c.state!=='waiting')return;
- const p=spots[station];c.tx=p.x;c.ty=p.y;c.state='station';c.station=station;selected=null;
- document.querySelectorAll('.station-hotspot').forEach(x=>x.classList.remove('active'));
- document.querySelector(`[data-station="${station}"]`).classList.add('active');setTimeout(()=>document.querySelector(`[data-station="${station}"]`).classList.remove('active'),500);
- renderCustomers();renderOrder();
-}
-document.querySelectorAll('.station-hotspot').forEach(el=>el.onclick=()=>sendTo(el.dataset.station));
-const floorWrap=document.querySelector('.floor-wrap');
-floorWrap.addEventListener('pointerdown',e=>{
-  if(!running||paused)return;
-  if(e.target.closest('.station-hotspot')||e.target.closest('.pause'))return;
-  const r=floorWrap.getBoundingClientRect();
-  const px=(e.clientX-r.left)/r.width*100;
-  const py=(e.clientY-r.top)/r.height*100;
-  let nearest=null,best=14;
-  for(const c of customers){
-    if(c.state!=='waiting')continue;
-    const d=Math.hypot(c.x-px,c.y-py);
-    if(d<best){best=d;nearest=c}
-  }
-  if(nearest){
-    selected=nearest.id;
-    renderCustomers();
-    renderOrder();
-    toast(`${nearest.name}: ${nearest.text}`);
-  }
-});
-
-document.querySelectorAll('.mobile-station').forEach(el=>el.onclick=()=>{
-  document.querySelectorAll('.mobile-station').forEach(x=>x.classList.remove('active'));
-  el.classList.add('active');
-  sendTo(el.dataset.mobileStation);
-  setTimeout(()=>el.classList.remove('active'),450);
-});
-function resolve(c){
- if(c.station===c.type){combo++;maxCombo=Math.max(maxCombo,combo);served++;coins+=90+combo*10;hqXp+=40;toast('Betul! Customer served.');}
- else{combo=0;wrong++;rep-=8;toast('Salah station! Reputation turun.')}
- c.tx=spots.entrance.x;c.ty=spots.entrance.y;c.state='leaving'
-}
-function start(){
- customers=[];selected=null;running=true;paused=false;last=performance.now();time=300;spawn=.4;coins=0;rep=100;combo=0;maxCombo=0;served=0;wrong=0;angry=0;hqXp=0;
- $('startOverlay').classList.add('hidden');$('endOverlay').classList.add('hidden');updateHud();requestAnimationFrame(loop)
-}
-function finish(){
- running=false;meta.best=Math.max(meta.best,served*100+coins);save();
- $('endText').textContent=`Served ${served} customer, earned ${coins} coins, max combo x${maxCombo}.`;
- $('endOverlay').classList.remove('hidden');updateHud()
-}
-function loop(t){
- if(!running)return;
- const dt=Math.min(.05,(t-last)/1000||0);last=t;
- if(!paused){
-   time-=dt;spawn-=dt;
-   if(spawn<=0){spawnCustomer();spawn=10.5}
-   for(const c of customers){
-     if(c.state==='walking'&&move(c,dt))c.state='waiting';
-     else if(c.state==='waiting'){c.patience-=dt*1.15;if(c.patience<=0){c.state='leaving';c.tx=spots.entrance.x;c.ty=spots.entrance.y;rep-=10;angry++;combo=0;if(selected===c.id)selected=null;toast('Customer keluar marah!')}}
-     else if(c.state==='station'&&move(c,dt)){c.state='serving';c.serve=2.2}
-     else if(c.state==='serving'){c.serve-=dt;if(c.serve<=0)resolve(c)}
-     else if(c.state==='leaving'&&move(c,dt))c.remove=true
-   }
-   customers=customers.filter(c=>!c.remove);
-   if(rep<=0||time<=0)return finish()
- }
- renderCustomers();renderOrder();updateHud();requestAnimationFrame(loop)
-}
-$('startBtn').onclick=start;$('againBtn').onclick=start;
-$('pauseBtn').onclick=()=>{if(!running)return;paused=true;$('pauseOverlay').classList.remove('hidden')};
-$('resumeBtn').onclick=()=>{paused=false;last=performance.now();$('pauseOverlay').classList.add('hidden')};
-$('resetBtn').onclick=()=>{if(confirm('Reset save?')){meta={best:0};save();updateHud()}};
-addEventListener('keydown',e=>{if(e.key==='Escape'&&running){paused=!paused;$('pauseOverlay').classList.toggle('hidden',!paused);last=performance.now()}});
-updateHud();
+{type:'sales',text:'Saya nak PS5 bawah RM2,000.',icon:'🎮',name:'Aiman',shirt:'#245fba',stock:'ps5'},
+{type:'repair',text:'Controller saya stick drift la boss.',icon:'🛠️',name:'Hakim',shirt:'#c44a33'},
+{type:'trade',text:'Saya nak trade-in PS4 boleh?',icon:'🔄',name:'Faris',shirt:'#28769c'},
+{type:'sales',text:'Ada game FC 24 untuk PS5 tak?',icon:'💿',name:'Nadia',shirt:'#2e9361',stock:'game'},
+{type:'cashier',text:'Saya dah ready nak bayar.',icon:'💳',name:'Amir',shirt:'#8557bd'},
+{type:'repair',text:'Console saya cepat panas.',icon:'🔧',name:'Syafiq',shirt:'#c17b2f'},
+{type:'trade',text:'Nak jual koleksi game lama.',icon:'📦',name:'Izzat',shirt:'#3c7d46'},
+{type:'sales',text:'Ada controller PS5 warna hitam?',icon:'🎮',name:'Lina',shirt:'#b54475',stock:'pad'},
+{type:'cashier',text:'Nak collect repair siap.',icon:'🧾',name:'Azlan',shirt:'#3a65a9'}];
+let customers=[],selected=null,running=false,paused=false,last=0,time=300,spawn=0,coins=0,rep=100,combo=0,maxCombo=0,served=0,wrong=0,angry=0,xp=0,level=1,eventTime=0,eventMult=1,goalClaimed=false,sound=true;
+let stock={ps5:5,pad:8,game:12,repair:3};let meta=load();function load(){try{return JSON.parse(localStorage.getItem('mqV07'))||{best:0,level:1,xp:0}}catch{return{best:0,level:1,xp:0}}}function save(){localStorage.setItem('mqV07',JSON.stringify(meta))}
+const staff=[{name:'Amirul',role:'sales',x:72,y:58,shirt:'#163e2d'},{name:'Haziq',role:'repair',x:21,y:58,shirt:'#244d7b'}];
+function renderStaff(){$('staffLayer').innerHTML=staff.map(s=>`<div class="staff" style="left:${s.x}%;top:${s.y}%;--shirt:${s.shirt}"><div class="sprite"></div><div class="staff-tag">${s.name} · ${s.role.toUpperCase()}</div></div>`).join('')};renderStaff();
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>$('toast').classList.remove('show'),1100)}function fmt(t){t=Math.max(0,Math.ceil(t));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0')}
+function spawnCustomer(){if(customers.length>=Math.min(4+level,7))return;const base={...requests[Math.floor(Math.random()*requests.length)]};const waiting=[spots.wait1,spots.wait2,spots.wait3,spots.wait4][customers.filter(c=>c.state==='waiting'||c.state==='walking').length%4];customers.push({...base,id:(crypto.randomUUID?crypto.randomUUID():Date.now()+Math.random()),x:spots.entrance.x,y:spots.entrance.y,tx:waiting.x,ty:waiting.y,state:'walking',patience:100,serve:0});renderCustomers()}
+function customerHtml(c){return `<div class="customer ${selected===c.id?'selected':''}" data-id="${c.id}" style="left:${c.x}%;top:${c.y}%;--shirt:${c.shirt}"><div class="bubble"><div>${c.text}</div><div class="patience-label"><span>PATIENCE</span><b>${Math.ceil(c.patience)}%</b></div><div class="patience"><i style="width:${c.patience}%"></i></div></div><div class="sprite"></div><div class="task-icon">${c.icon}</div></div>`}
+function renderCustomers(){$('customerLayer').innerHTML=customers.map(customerHtml).join('');document.querySelectorAll('.customer').forEach(el=>el.onclick=()=>{const c=customers.find(x=>x.id===el.dataset.id);if(!c||c.state!=='waiting')return;selected=c.id;renderCustomers();renderOrder()});renderQueue()}
+function renderOrder(){const c=customers.find(x=>x.id===selected);if(!c){$('currentOrder').innerHTML='Select a customer.';$('mobileOrder').innerHTML='Tap customer untuk lihat permintaan.';return}$('currentOrder').innerHTML=`<div class="order-card"><p>${c.icon} ${c.text}</p><small>${c.name} · ${c.type.toUpperCase()}</small><div class="patience"><i style="width:${c.patience}%"></i></div></div>`;$('mobileOrder').innerHTML=`<b>${c.name}</b> · ${c.text} <span class="gold">${Math.ceil(c.patience)}%</span>`}
+function renderQueue(){const arr=customers.filter(c=>c.state==='waiting').slice(0,5);$('queue').innerHTML=arr.length?arr.map(c=>`<div class="queue-item"><span>${c.icon}</span><div>${c.name}<br><small>${c.type}</small></div><b>${Math.ceil(c.patience)}%</b></div>`).join(''):'<div style="color:var(--muted);font-size:10px">Queue kosong.</div>'}
+function updateHud(){$('coins').textContent=coins.toLocaleString();$('rep').textContent=Math.max(0,Math.round(rep))+'%';$('repBar').style.width=Math.max(0,rep)+'%';$('combo').textContent='x'+combo;$('timer').textContent=fmt(time);$('level').textContent='Lv.'+level;$('xpBar').style.width=(xp%500)/5+'%';$('served').textContent=served;$('wrong').textContent=wrong;$('angry').textContent=angry;$('maxCombo').textContent=maxCombo;$('best').textContent=meta.best||0;$('goalText').textContent=`${served} / 18`;$('goalBar').style.width=Math.min(100,served/18*100)+'%';$('stockPs5').textContent=stock.ps5;$('stockPad').textContent=stock.pad;$('stockGame').textContent=stock.game;$('repairSlots').textContent=stock.repair;['stockPs5','stockPad','stockGame','repairSlots'].forEach(id=>$(id).classList.toggle('danger',Number($(id).textContent)<=1));if(served>=18&&!goalClaimed){goalClaimed=true;coins+=500;toast('Quest complete! +500 coins')}}
+function move(c,dt){const dx=c.tx-c.x,dy=c.ty-c.y,d=Math.hypot(dx,dy);if(d<.7){c.x=c.tx;c.y=c.ty;return true}const speed=22+level*1.4;c.x+=dx/d*speed*dt;c.y+=dy/d*speed*dt;return false}
+function sendTo(station){if(!running||paused)return;const c=customers.find(x=>x.id===selected);if(!c)return toast('Pilih customer dahulu');if(c.state!=='waiting')return;c.tx=spots[station].x;c.ty=spots[station].y;c.state='station';c.station=station;selected=null;document.querySelectorAll('.station').forEach(x=>x.classList.remove('active'));document.querySelector(`[data-station="${station}"]`).classList.add('active');setTimeout(()=>document.querySelector(`[data-station="${station}"]`).classList.remove('active'),450);renderCustomers();renderOrder()}
+document.querySelectorAll('.station').forEach(el=>el.onclick=()=>sendTo(el.dataset.station));document.querySelectorAll('.mobile-station').forEach(el=>el.onclick=()=>sendTo(el.dataset.mobileStation));
+$('floorWrap').addEventListener('pointerdown',e=>{if(!running||paused||e.target.closest('.station')||e.target.closest('.pause'))return;const r=$('floorWrap').getBoundingClientRect(),px=(e.clientX-r.left)/r.width*100,py=(e.clientY-r.top)/r.height*100;let nearest=null,best=15;for(const c of customers){if(c.state!=='waiting')continue;const d=Math.hypot(c.x-px,c.y-py);if(d<best){best=d;nearest=c}}if(nearest){selected=nearest.id;renderCustomers();renderOrder()}});
+function canServe(c){if(c.stock&&stock[c.stock]<=0)return false;if(c.type==='repair'&&stock.repair<=0)return false;return true}
+function resolve(c){if(c.station===c.type&&canServe(c)){combo++;maxCombo=Math.max(maxCombo,combo);served++;const reward=Math.round((90+combo*10)*eventMult);coins+=reward;xp+=40;if(c.stock)stock[c.stock]--;if(c.type==='repair')stock.repair--;rep=Math.min(100,rep+1);toast(`Served! +${reward} coins`)}else{combo=0;wrong++;rep-=canServe(c)?8:5;toast(canServe(c)?'Salah station!':'Stok/slot habis!')}if(xp>=500){xp-=500;level++;coins+=300;showEvent('STORE LEVEL UP! +300 coins',4);meta.level=level;meta.xp=xp;save()}c.tx=spots.entrance.x;c.ty=spots.entrance.y;c.state='leaving'}
+function showEvent(text,duration=7){eventTime=duration;$('eventBanner').textContent=text;$('eventBanner').classList.add('show');$('eventInfo').textContent=text;setTimeout(()=>$('eventBanner').classList.remove('show'),2200)}
+function randomEvent(){const r=Math.random();if(r<.34){eventMult=2;showEvent('⚡ DOUBLE COINS EVENT · 18s',18);setTimeout(()=>eventMult=1,18000)}else if(r<.67){stock.ps5+=2;stock.pad+=2;stock.game+=3;showEvent('📦 SUPPLIER DELIVERY ARRIVED',7)}else{rep=Math.min(100,rep+8);showEvent('⭐ VIRAL REVIEW · REPUTATION +8',7)}}
+function staffAssist(){if(Math.random()>.2)return;for(const s of staff){const c=customers.find(x=>x.state==='waiting'&&x.type===s.role);if(c){c.tx=spots[s.role].x;c.ty=spots[s.role].y;c.state='station';c.station=s.role;if(selected===c.id)selected=null;toast(`${s.name} bantu customer`);break}}}
+function start(){customers=[];selected=null;running=true;paused=false;last=performance.now();time=300;spawn=.4;coins=0;rep=100;combo=0;maxCombo=0;served=0;wrong=0;angry=0;xp=meta.xp||0;level=meta.level||1;stock={ps5:5,pad:8,game:12,repair:3};eventTime=0;eventMult=1;goalClaimed=false;$('startOverlay').classList.add('hidden');$('endOverlay').classList.add('hidden');$('eventInfo').textContent='No active event.';updateHud();requestAnimationFrame(loop)}
+function finish(){running=false;const score=served*100+coins+Math.round(rep*10);meta.best=Math.max(meta.best||0,score);meta.level=level;meta.xp=xp;save();$('endText').textContent=`Served ${served} customers · ${coins} coins · reputation ${Math.round(rep)}% · score ${score}.`;$('endOverlay').classList.remove('hidden');updateHud()}
+let eventCountdown=38,staffCountdown=7,cameraCountdown=4;function loop(t){if(!running)return;const dt=Math.min(.05,(t-last)/1000||0);last=t;if(!paused){time-=dt;spawn-=dt;eventCountdown-=dt;staffCountdown-=dt;cameraCountdown-=dt;if(spawn<=0){spawnCustomer();spawn=Math.max(4.8,9.5-level*.35)}if(eventCountdown<=0){randomEvent();eventCountdown=35+Math.random()*22}if(staffCountdown<=0){staffAssist();staffCountdown=6+Math.random()*6}if(cameraCountdown<=0&&innerWidth>700){$('camera').style.transform=`scale(1.05) translate(${(Math.random()-.5)*1.8}%,${(Math.random()-.5)*1.4}%)`;cameraCountdown=4+Math.random()*4}if(eventTime>0){eventTime-=dt;if(eventTime<=0)$('eventInfo').textContent='No active event.'}for(const c of customers){if(c.state==='walking'&&move(c,dt))c.state='waiting';else if(c.state==='waiting'){c.patience-=dt*(1.05+level*.03);if(c.patience<=0){c.state='leaving';c.tx=spots.entrance.x;c.ty=spots.entrance.y;rep-=10;angry++;combo=0;if(selected===c.id)selected=null;toast('Customer keluar marah!')}}else if(c.state==='station'&&move(c,dt)){c.state='serving';c.serve=Math.max(1.25,2.4-level*.08)}else if(c.state==='serving'){c.serve-=dt;if(c.serve<=0)resolve(c)}else if(c.state==='leaving'&&move(c,dt))c.remove=true}customers=customers.filter(c=>!c.remove);if(rep<=0||time<=0)return finish()}renderCustomers();renderOrder();updateHud();requestAnimationFrame(loop)}
+$('upgradeBtn').onclick=()=>{if(coins<1500)return toast('Coins tak cukup');coins-=1500;level++;stock.ps5+=2;stock.pad+=2;stock.game+=3;stock.repair+=1;showEvent('🏪 STORE UPGRADED!',5);updateHud()};$('soundBtn').onclick=()=>{sound=!sound;$('soundBtn').textContent=sound?'🔊':'🔇'};$('startBtn').onclick=start;$('againBtn').onclick=start;$('pauseBtn').onclick=()=>{if(!running)return;paused=true;$('pauseOverlay').classList.remove('hidden')};$('resumeBtn').onclick=()=>{paused=false;last=performance.now();$('pauseOverlay').classList.add('hidden')};$('resetBtn').onclick=()=>{if(confirm('Reset save?')){meta={best:0,level:1,xp:0};save();updateHud()}};addEventListener('keydown',e=>{if(e.key==='Escape'&&running){paused=!paused;$('pauseOverlay').classList.toggle('hidden',!paused);last=performance.now()}});updateHud();
 })();
 </script>
 </body>
